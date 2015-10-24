@@ -1,0 +1,81 @@
+﻿<%--
+Default skin template. These skins are only used for this example, and it is protected by RPC legistration and regulation.
+
+you could change the skin to make the GI more comfortable and ease.
+ 
+--%>
+<asp:SiteMapPath runat="server"></asp:SiteMapPath>
+<asp:Calendar runat="server" BackColor="White" BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" Height="180px" Width="250px" >
+   <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" />
+   <NextPrevStyle VerticalAlign="Bottom" />
+   <OtherMonthDayStyle ForeColor="#808080" />
+   <SelectedDayStyle BackColor="#666666" Font-Bold="True" ForeColor="White" />
+   <SelectorStyle BackColor="#CCCCCC" />
+   <TitleStyle BackColor="#999999" BorderColor="Black" Font-Bold="True" />
+   <TodayDayStyle BackColor="#CCCCCC" ForeColor="Black" />
+   <WeekendDayStyle BackColor="#FFFFCC" />
+</asp:Calendar>
+<asp:GridView runat="server" SkinID="gview" AutoGenerateColumns="False" Width="400px" ></asp:GridView>
+<asp:GridView runat="server" SkinID="gv" AutoGenerateColumns="False" Width="260px"></asp:GridView>
+<asp:AdRotator  runat="server" />
+<asp:Image  runat="server" SkinID="img1" Height="100px" Width="140px" />
+<asp:LinkButton  runat="server" SkinID="lbutton" BorderStyle="Outset"  BorderColor="White" Font-Strikeout="False" Font-Underline="False"></asp:LinkButton>
+<asp:Label runat="server"></asp:Label>
+<asp:HyperLink runat="server"></asp:HyperLink>
+<asp:Login runat="server" CssClass="login" Height="250" Width="400">
+    <LabelStyle CssClass="loginText" />
+    <TitleTextStyle CssClass="loginText" />
+    <ValidatorTextStyle />
+</asp:Login>
+<asp:LoginName runat="server" />
+<asp:LoginStatus runat="server" />
+<asp:TextBox runat="server" SkinID="tBox" style="margin-left: 19px" Width="160px"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="pBox" style="margin-left: 19px" Width="160px"></asp:TextBox>
+<asp:DropDownList runat="server" SkinID="qList" style="margin-left: 18px" Width="165px">
+</asp:DropDownList>
+<asp:RadioButtonList runat="server" SkinID="rbList" Font-Overline="False" Height="16px" RepeatDirection="Horizontal" style="margin-left: 8px" Width="155px">
+</asp:RadioButtonList>
+<asp:DropDownList  runat="server" SkinID="yearList" style="margin-left: 14px" Width="75px">
+</asp:DropDownList>
+<asp:DropDownList  runat="server" SkinID="monthList" style="margin-left: 20px" Width="51px">
+</asp:DropDownList>
+<asp:DropDownList  runat="server" SkinID="countryList" Width="75px" style="margin-left: 14px">
+</asp:DropDownList>
+<asp:DropDownList  runat="server" SkinID="regList" style="margin-left: 20px" Width="90px">
+</asp:DropDownList>
+<asp:ListBox runat="server" SkinID="dpm" Height="60px" Width="161px" style="margin-left: 11px">
+</asp:ListBox>
+<asp:CheckBox runat="server" />
+<asp:GridView runat="server" SkinID="gv2" CellPadding="3"
+            Font-Names="arial" Font-Size="8pt" HeaderStyle-BackColor="#dcdcdc" HeaderStyle-ForeColor="blue"
+            AutoGenerateColumns="False" ForeColor="Black" GridLines="Vertical" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px">
+            <AlternatingRowStyle BackColor="#CCCCCC" />
+            <FooterStyle BackColor="#CCCCCC" />
+            <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+            <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+            <SortedAscendingHeaderStyle BackColor="#808080" />
+            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+            <SortedDescendingHeaderStyle BackColor="#383838" />
+</asp:GridView>
+<asp:ImageButton runat="server" />
+<asp:Image  runat="server" SkinID="images" Height="210px" Width="200px" ImageAlign="Right" />
+<asp:Menu runat="server" Orientation="Horizontal" SkinID="menu" StaticSubMenuIndent="16px"> 
+        <StaticHoverStyle BackColor="White" BorderColor="White" BorderStyle="Inset" />
+        <StaticMenuItemStyle BackColor="White" BorderColor="White" BorderStyle="Outset" BorderWidth="2px" />
+        <StaticSelectedStyle BackColor="White" BorderStyle="Inset" />
+</asp:Menu>
+<asp:GridView runat="server" SkinID="gv3" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="401px">
+            <FooterStyle BackColor="White" BorderStyle="Outset" ForeColor="#000066" />
+            <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+            <RowStyle ForeColor="#000066" />
+            <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+            <SortedAscendingHeaderStyle BackColor="#007DBB" />
+            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+            <SortedDescendingHeaderStyle BackColor="#00547E" />
+</asp:GridView>
+<asp:TreeView runat="server"></asp:TreeView>
+<asp:image runat="server" Imageurl="IMG/poster.jpg" alt="poster" height="276" width="673" skinid="poster" /> 

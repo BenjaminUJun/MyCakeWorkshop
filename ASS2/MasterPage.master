@@ -1,0 +1,220 @@
+﻿<%@ Master Language="C#" %>
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="System.Web" %>
+<%@ Import Namespace="System.Web.UI" %>
+<%@ Import Namespace="System.Web.UI.WebControls" %>
+<%@ Import Namespace="System.Data.SqlClient" %>
+<%@ Import Namespace="System.Configuration" %>
+<%@ Import Namespace="System.Data.OleDb" %>
+
+<!DOCTYPE html>
+
+<script runat="server">
+
+    protected DataSet dsHolidays;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        Calendar1.SelectedDate = DateTime.Today;
+
+    }
+
+
+    protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+    {
+
+
+
+        DateTime firstDate = new DateTime(Calendar1.SelectedDate.Year,
+        Calendar1.SelectedDate.Month, 1);
+
+        int monthNumber, yearNumber;
+        if (Calendar1.SelectedDate.Month == 12)
+        {
+            monthNumber = 1;
+            yearNumber = Calendar1.SelectedDate.Year + 1;
+        }
+        else
+        {
+            monthNumber = Calendar1.SelectedDate.Month + 1;
+            yearNumber = Calendar1.SelectedDate.Year;
+        }
+        DateTime lastDate = new DateTime(yearNumber, monthNumber, 1);
+
+        DataSet dsMonth = new DataSet();
+        ConnectionStringSettings cs;
+        cs = ConfigurationManager.ConnectionStrings["ConnectionString1"];
+        String connString = cs.ConnectionString;
+        OleDbConnection dbConnection = new OleDbConnection(connString);
+        String query;
+        query = "SELECT * FROM event " + " WHERE event_date >= @firstDate AND event_date < @lastDate";
+        OleDbCommand dbCommand = new OleDbCommand(query, dbConnection);
+        dbCommand.Parameters.Add(new OleDbParameter("@firstDate",
+            firstDate));
+        dbCommand.Parameters.Add(new OleDbParameter("@lastDate", lastDate));
+
+        OleDbDataAdapter sqlDataAdapter = new OleDbDataAdapter(dbCommand);
+        try
+        {
+            sqlDataAdapter.Fill(dsMonth);
+        }
+        catch { }
+        dsHolidays = dsMonth;
+
+        DateTime nextDate;
+        if (dsHolidays != null)
+        {
+            foreach (DataRow dr in dsHolidays.Tables[0].Rows)
+            {
+                nextDate = (DateTime)dr["event_date"];
+                if (nextDate == e.Day.Date)
+                {
+                    e.Cell.BackColor = System.Drawing.Color.CornflowerBlue;
+                    if (DateTime.Today == e.Day.Date)
+                    {
+                        e.Cell.BackColor = System.Drawing.Color.RoyalBlue;
+                    }
+                }
+                else
+                {
+                    if (DateTime.Today == e.Day.Date)
+                    {
+                        e.Cell.BackColor = System.Drawing.Color.RoyalBlue;
+
+                    }
+                }
+            }
+        }
+
+        DateTime day = Calendar1.SelectedDate;
+        SqlDataSource1.SelectCommand = "SELECT [event_date] ,[event_detail]FROM [event] WHERE ([event_date]= #" + day + "#)";
+        System.Data.DataView dv = (System.Data.DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
+        if (SqlDataSource1.Select(DataSourceSelectArguments.Empty).GetEnumerator().MoveNext())
+        {
+            Label1.Text = "Time: " + dv.Table.Rows[0][0].ToString() + ".  Event: " + dv.Table.Rows[0][1].ToString();
+        }
+        else
+            Label1.Text = "No events for today!";
+    }
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+     <title></title>
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Contentplaceholder -->
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder5" runat="server"></asp:ContentPlaceHolder>
+    <!----webfonts--->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,700,800,400,600' rel='stylesheet' type='text/css'/>
+    <!---//webfonts--->
+
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="~/App_Themes/Style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">       
+        <div id="div0">
+            <div id="divTop">
+                <div id="templatemo_header">
+                    <div id="master_title">
+                        <h1>Sweet Castle Cake Shop</h1>
+                        <div class="logo">
+                            <a><asp:Image alt="" runat="server" Imageurl="IMG/images/logo.png"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="templatemo_middle">
+                    <div id="divLog">
+                        <asp:LoginName ID="LoginName1" runat="server" Font-Size="X-Large" ForeColor="White" />
+                        <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/ASS2/Login.aspx" Font-Size="X-Large" ForeColor="#3399FF" />
+                    </div>
+                   <div id="templatemo_banner">
+                        <h1><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h1>
+                    </div> 
+                    <div style="width:100%;margin-top:80px">
+                        <asp:Menu StaticDisplayLevels="2" ID="Menu" runat="server"
+                            DataSourceID="SiteMapDataSource1"
+                            Orientation="Horizontal"
+                            StaticEnableDefaultPopOutImage="false"
+                            DenamicEnableDefaultPopOutImage="false"
+                            StaticMenuStyle-VerticalPadding="7px"
+                            StaticMenuStyle-HorizontalPadding="140px"
+                            DynamicHorizontalOffset="0"
+                           
+                            Font-Names="Arial Unicode MS" Font-Size="19px"
+                            ForeColor="White"
+                            VerticalPadding="1em" Width="100%">
+                            <DynamicHoverStyle BackColor="#011422" />
+                            <DynamicMenuItemStyle HorizontalPadding="10px" VerticalPadding="7px" />
+                            <DynamicMenuStyle BackColor="#003375" VerticalPadding="7px" />
+                            <DynamicSelectedStyle BackColor="#003375" />
+                            <StaticHoverStyle BackColor="#011422" />
+                            <StaticMenuItemStyle HorizontalPadding="16px" />
+                            <StaticSelectedStyle BackColor="#003375" />
+                        </asp:Menu>
+                        <asp:SiteMapDataSource
+                            ID="SiteMapDataSource1"
+                            runat="server" />
+                    </div>
+                    <!-- end of templatemo_menu -->
+
+               </div>
+
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+           
+            <div id="divLeft">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                        </asp:ContentPlaceHolder>
+            </div>
+            <div id="divRight">
+                    <div id="Adv">
+                    <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Advertisement</h2>
+                        <div class="advPic"><asp:AdRotator ID="AdRotator1" runat="server" AdvertisementFile="adv.xml"/></div>
+               </div>
+                <div id="Calendar">
+                    <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Calendar</h2>
+                    <div class="calendar">
+                        <asp:SqlDataSource ID="SqlDataSource1" runat="server"
+                            ConnectionString="<%$ ConnectionStrings:ConnectionString1 %>"
+                            ProviderName="<%$ ConnectionStrings:ConnectionString1.ProviderName %>"></asp:SqlDataSource>
+                        <asp:Calendar ID="Calendar1" runat="server" OnDayRender=" Calendar1_DayRender" Height="225px" Width="248px">
+                            <DayHeaderStyle ForeColor="#66FFFF" />
+                            <DayStyle ForeColor="#99CCFF" />
+                            <NextPrevStyle ForeColor="White" />
+                            <SelectedDayStyle BackColor="#3399FF" ForeColor="White" />
+                            <SelectorStyle ForeColor="White" />
+                            <TitleStyle BackColor="#092F5C" ForeColor="#FFFFCC" />
+                            <TodayDayStyle ForeColor="White" />
+                            <WeekendDayStyle ForeColor="#66FFFF" />
+                        </asp:Calendar>
+                        <asp:Label ID="Label1" runat="server" Text="Label" Font-Size="Small" ForeColor="White"></asp:Label>
+                    </div>
+                </div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+                </asp:ContentPlaceHolder> 
+            </div>
+           
+            <div id="divFooter">
+                <div class="foot">Copyright © 2015 Sweet Castle Cake Shop</div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder4" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
